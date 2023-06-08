@@ -1,22 +1,43 @@
+'use client'
+import Link from "next/link";
 import Posts from "./component/post";
+import { useEffect, useState } from 'react';
 
-async function getPost() {
-  const res = await fetch(`http://127.0.0.1:8000/api/article/100/0/published/`, {
-    mode: "no-cors",
-  });
-  return res.json();
-}
+export default function Home() {
+  const [posts, setPosts] = useState(null);
+  const [offset, setOffset] = useState(0);
+  const [isLoading, setLoading] = useState(false);
 
-export default async function Home() {
-  const postData = getPost();
+  useEffect(() => {
+      setLoading(true);
+      fetch(`http://127.0.0.1:8000/api/article/100/${offset}/`)
+      .then((res) => res.json())
+      .then((data) => {
+          setPosts(data);
+          setLoading(false);
+      });
+  }, []);
 
-  // Wait for the promises to resolve
-  const [posts] = await Promise.all([postData]);
-
+  if (isLoading) return <h1 className="text-2xl text-center text-zinc-300 mt-5 bg-lime">Loading</h1>;
+  if (!posts) return <h1 className="text-2xl text-center text-zinc-300 mt-5 bg-lime">No Data</h1>
   return (
     <main>
-      <h1 className="text-2xl text-center text-zinc-300 mt-5 bg-lime">Published Article</h1>
-      <Posts post={posts}></Posts>
+      
+      <div className='flex justify-center'>
+        <div className='mt-5 flex justify-between w-4/6'>
+          <h1 className="text-2xl text-center text-zinc-300  bg-lime">All Article</h1>
+          <Link href={'/article/create'}>
+            <button 
+                type="button"
+                className="focus:outline-none text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-2">
+                Add Article
+            </button>
+          </Link>
+        </div>
+      </div>
+
+      { posts.data.length > 0 ? <Posts post={posts}></Posts> : <h1 className="text-2xl text-center text-zinc-300 mt-2 bg-lime">No Article Found</h1> }
+
     </main>
   );
 }

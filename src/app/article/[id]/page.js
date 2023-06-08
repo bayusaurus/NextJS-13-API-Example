@@ -1,9 +1,7 @@
 import Posts from "@/app/component/post";
 
 async function getPost(id) {
-    const res = await fetch(`http://127.0.0.1:8000/api/article/${id}`, {
-        mode: "no-cors",
-    });
+    const res = await fetch(`http://127.0.0.1:8000/api/article/${id}/`);
     return res.json();
 }
 

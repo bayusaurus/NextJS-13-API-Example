@@ -5,15 +5,15 @@ export default function Navbar() {
             <ul className="flex flex-row align-middle h-full space-x-4">
                 <Link href='/'>
                     <li className="flex flex-col align-middle h-full justify-center">
-                        <div className="text-2xl font-semibold flex flex-col align-middle h-full justify-center">
+                        <div className="text-xl font-semibold flex flex-col align-middle h-full justify-center">
                             Home
                         </div>
                     </li>
                 </Link>
-                <Link href='/'>
+                <Link href='/preview'>
                     <li className="flex flex-col align-middle h-full justify-center">
                         <div className="text-xl font-semibold flex flex-col align-middle h-full justify-center">
-                            Published
+                            Preview
                         </div>
                     </li>
                 </Link>
